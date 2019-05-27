@@ -2,7 +2,6 @@
 # -*- coding:utf-8 -*-
 
 import numpy as np
-from matplotlib import pyplot
 
 
 def load_data(filename):
