@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import numpy as np
+from matplotlib import pyplot
 
 
 def load_data(filename):
@@ -20,21 +21,25 @@ def load_data(filename):
     return x, y
 
 
-def scaling(x):
+def scaling(data):
     """
     缩放特征
     """
 
-    x_mean = np.mean(x, axis=0)
-    x_std = np.std(x, axis=0)
-    print("x mean: {}\nx_std:{}".format(x_mean, x_std))
+    data_mean = np.mean(data, axis=0)
+    data_std = np.std(data, axis=0)
+    print("data mean: {}\ndata_std:{}".format(data_mean, data_std))
 
-    for idx in range(x.shape[1]):
-        column = x[:, idx]
-        column = (column - x_mean[idx]) / x_std[idx]
-        x[:, idx] = column
+    if len(data.shape) > 1:
+        for idx in range(data.shape[1]):
+            column = data[:, idx]
+            column = (column - data_mean[idx]) / data_std[idx]
+            data[:, idx] = column
+    else:
+        column = (data - data_mean) / data_std
+        data = column
 
-    return x, x_mean, x_std
+    return data, data_mean, data_std
 
 
 def cost_function(theta, x, y):
@@ -55,6 +60,7 @@ def main():
 
     # 特征缩放，并返回相关的数据，后续做预测的时候需要用到
     x, x_mean, x_std = scaling(x)
+    y, y_mean, y_std = scaling(y)
 
     # 补上偏置
     bias = np.ones((x.shape[0], 1))
@@ -66,7 +72,7 @@ def main():
 
     # 正规方程
     theta = normal_equations(x, y)
-    print(theta)
+    print("theta is:", theta)
 
     print(cost_function(theta, x, y))
 
