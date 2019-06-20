@@ -70,6 +70,7 @@ def main():
     plot.xlabel("Population of City in 10,000s")
     plot.ylabel("Profit in $10,000s")
     # plot.show()
+    plot.savefig("raw.jpg")
 
     # theta 初始值设置为0 （2x1的矩阵）
     theta = np.zeros((2, 1))
